@@ -1,7 +1,8 @@
 if(!localStorage.getItem("token")){
     window.location.href = "login.html";
 }
-const API_URL = "http://localhost:5000/api/orders";
+const API_URL =
+"https://codealpha-ecommercestore-tmkv.onrender.com/api/orders";
 
 async function loadOrders() {
 

@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL =
+"https://codealpha-ecommercestore-tmkv.onrender.com/api/auth";
 
 // Register
 const registerForm = document.getElementById("registerForm");
