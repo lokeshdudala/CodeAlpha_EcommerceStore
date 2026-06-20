@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="logo">🛍 ShopEasy</div>
+
+    <div class="nav-links">
+        <a href="products.html">Products</a>
+        <a href="cart.html">Cart</a>
+        <a href="orders.html">Orders</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+</nav>
+
+<h1 class="page-title">Shopping Cart</h1>
+
+<div id="cart-container"></div>
+
+<div class="cart-summary">
+    <h2 id="total-price">Total: ₹0</h2>
+
+    <button onclick="placeOrder()">
+        Place Order
+    </button>
+</div>
+
+<footer>
+    <p>© 2026 ShopEasy</p>
+</footer>
+
+<script src="js/logout.js"></script>
+<script src="js/cart.js"></script>
+
+</body>
+</html>
