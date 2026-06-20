@@ -14,20 +14,23 @@ connectDB();
 
 const app = express();
 
-app.use(cors({
-    origin: "http://127.0.0.1:5500"
-}));
+// CORS
+app.use(cors());
 
+// Middleware
 app.use(express.json());
 
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 
+// Test Route
 app.get("/", (req, res) => {
     res.send("API Running...");
 });
 
+// Server
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
