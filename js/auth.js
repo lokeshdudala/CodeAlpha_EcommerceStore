@@ -86,15 +86,12 @@ if (loginForm) {
 
             if (response.ok) {
 
-                localStorage.setItem(
-                    "token",
-                    data.token
-                );
+                localStorage.setItem("token", data.token);
+localStorage.setItem("userId", data.userId);
 
-                alert("Login Successful");
+alert("Login Successful");
 
-                window.location.href =
-                    "products.html";
+window.location.href = "products.html";
 
             } else {
 

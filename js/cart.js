@@ -91,16 +91,13 @@ async function placeOrder(){
         );
 
     const orderData = {
-
-        user: null,
-
-        products: cartIds.map(id => ({
-            product: id,
-            quantity: 1
-        })),
-
-        totalAmount
-    };
+    user: localStorage.getItem("userId"),
+    products: cartIds.map(id => ({
+        product: id,
+        quantity: 1
+    })),
+    totalAmount
+};
 
     try{
 

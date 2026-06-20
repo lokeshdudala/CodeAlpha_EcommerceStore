@@ -26,7 +26,11 @@ const createOrder = async (req, res) => {
 const getOrders = async (req, res) => {
     try {
 
-        const orders = await Order.find();
+        const { userId } = req.params;
+
+        const orders = await Order.find({
+            user: userId
+        });
 
         res.status(200).json(orders);
 
