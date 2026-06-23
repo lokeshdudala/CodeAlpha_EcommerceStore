@@ -1,134 +1,207 @@
 if(!localStorage.getItem("token")){
-    window.location.href = "login.html";
+window.location.href = "login.html";
 }
 
 const API_URL =
 "https://codealpha-ecommercestore-tmkv.onrender.com/api/products";
 
-async function loadCart() {
+async function loadCart(){
 
-    const cartIds =
-        JSON.parse(localStorage.getItem("cart")) || [];
 
-    const container =
-        document.getElementById("cart-container");
+const cartIds =
+JSON.parse(
+    localStorage.getItem("cart")
+) || [];
 
-    container.innerHTML = "";
+const container =
+document.getElementById(
+    "cart-container"
+);
 
-    let total = 0;
+container.innerHTML = "";
 
-    for (let id of cartIds) {
+let total = 0;
 
-        try {
-
-            const response =
-                await fetch(`${API_URL}/${id}`);
-
-            const product =
-                await response.json();
-
-            total += product.price;
-
-            container.innerHTML += `
-                <div class="cart-item">
-
-                    <h3>${product.name}</h3>
-
-                    <p>${product.description}</p>
-
-                    <h2>₹${product.price}</h2>
-
-                    <button onclick="removeFromCart('${id}')">
-                        Remove
-                    </button>
-
-                </div>
-            `;
-
-        } catch(error){
-            console.log(error);
-        }
-    }
-
-    document.getElementById("total-price")
-        .innerText =
-        `Total: ₹${total.toFixed(2)}`;
-}
-
-function removeFromCart(id){
-
-    let cart =
-        JSON.parse(localStorage.getItem("cart")) || [];
-
-    cart = cart.filter(item => item !== id);
-
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
-
-    loadCart();
-}
-
-async function placeOrder(){
-
-    const cartIds =
-        JSON.parse(localStorage.getItem("cart")) || [];
-
-    if(cartIds.length === 0){
-
-        alert("Cart is Empty");
-        return;
-    }
-
-    const totalText =
-        document.getElementById("total-price")
-        .innerText;
-
-    const totalAmount =
-        parseFloat(
-            totalText.replace("Total: ₹","")
-        );
-
-    const orderData = {
-    user: localStorage.getItem("userId"),
-    products: cartIds.map(id => ({
-        product: id,
-        quantity: 1
-    })),
-    totalAmount
-};
+for(let id of cartIds){
 
     try{
 
-        const response = await fetch(
-            "https://codealpha-ecommercestore-tmkv.onrender.com/api/orders",
-            {
-                method:"POST",
-
-                headers:{
-                    "Content-Type":"application/json"
-                },
-
-                body:JSON.stringify(orderData)
-            }
+        const response =
+        await fetch(
+            `${API_URL}/${id}`
         );
 
-        const data =
-            await response.json();
+        const product =
+        await response.json();
 
-        alert(data.message);
+        total += product.price;
 
-        localStorage.removeItem("cart");
+        container.innerHTML += `
+        <div class="cart-item">
 
-        window.location.reload();
+            <img
+                src="${product.image}"
+                alt="${product.name}"
+            >
+
+            <div>
+
+                <h3>
+                    ${product.name}
+                </h3>
+
+                <p>
+                    ${product.description}
+                </p>
+
+                <div class="rating">
+                    ⭐⭐⭐⭐⭐ (4.5)
+                </div>
+
+                <p class="delivery">
+                    🚚 Free Delivery
+                </p>
+
+                <h2>
+                    ₹${product.price}
+                </h2>
+
+                <button
+                    class="remove-btn"
+                    onclick="removeFromCart('${id}')">
+
+                    🗑 Remove
+
+                </button>
+
+            </div>
+
+        </div>
+        `;
 
     }catch(error){
 
         console.log(error);
-
-        alert("Order Failed");
     }
+}
+
+document.getElementById(
+    "total-price"
+).innerText =
+`Total: ₹${total.toFixed(2)}`;
+
+
+}
+
+function removeFromCart(id){
+
+
+let cart =
+JSON.parse(
+    localStorage.getItem("cart")
+) || [];
+
+cart =
+cart.filter(
+    item => item !== id
+);
+
+localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+);
+
+loadCart();
+
+
+}
+
+async function placeOrder(){
+
+
+const cartIds =
+JSON.parse(
+    localStorage.getItem("cart")
+) || [];
+
+if(cartIds.length === 0){
+
+    alert("🛒 Cart is Empty");
+    return;
+}
+
+const totalText =
+document.getElementById(
+    "total-price"
+).innerText;
+
+const totalAmount =
+parseFloat(
+    totalText.replace(
+        "Total: ₹",
+        ""
+    )
+);
+
+const orderData = {
+
+    user:
+    localStorage.getItem(
+        "userId"
+    ),
+
+    products:
+    cartIds.map(id => ({
+
+        product:id,
+        quantity:1
+
+    })),
+
+    totalAmount
+};
+
+try{
+
+    const response =
+    await fetch(
+    "https://codealpha-ecommercestore-tmkv.onrender.com/api/orders",
+    {
+        method:"POST",
+
+        headers:{
+            "Content-Type":
+            "application/json"
+        },
+
+        body:JSON.stringify(
+            orderData
+        )
+    });
+
+    const data =
+    await response.json();
+
+    alert(
+        "✅ Order Placed Successfully"
+    );
+
+    localStorage.removeItem(
+        "cart"
+    );
+
+    window.location.reload();
+
+}catch(error){
+
+    console.log(error);
+
+    alert(
+        "❌ Order Failed"
+    );
+}
+
+
 }
 
 loadCart();

@@ -3,32 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders</title>
+    <title>My Orders - ShopEasy</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="logo">🛍 ShopEasy</div>
+    <!-- Navbar -->
+    <nav class="navbar">
 
-    <div class="nav-links">
-        <a href="products.html">Products</a>
-        <a href="cart.html">Cart</a>
-        <a href="orders.html">Orders</a>
-        <a href="#" onclick="logout()">Logout</a>
+        <div class="logo">
+            🛍 ShopEasy
+        </div>
+
+        <div class="nav-links">
+
+            <a href="products.html">
+                🏠 Home
+            </a>
+
+            <a href="cart.html">
+                🛒 Cart
+            </a>
+
+            <a href="orders.html">
+                📦 Orders
+            </a>
+
+            <a href="wishlist.html">
+                ❤️ Wishlist
+            </a>
+
+            <a href="#" onclick="logout()">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- Delivery Banner -->
+    <div class="free-delivery-banner">
+        🚚 Track Your Orders Anytime
     </div>
-</nav>
 
-<h1 class="page-title">My Orders</h1>
+    <!-- Page Title -->
+    <h1 class="page-title">
+        📦 My Orders
+    </h1>
 
-<div id="orders-container"></div>
+    <!-- Orders Container -->
+    <div id="orders-container"></div>
 
-<footer>
-    <p>© 2026 ShopEasy</p>
-</footer>
+    <!-- Footer -->
+    <footer>
+        <p>
+            © 2026 ShopEasy. All Rights Reserved.
+        </p>
+    </footer>
 
-<script src="js/logout.js"></script>
-<script src="js/orders.js"></script>
+    <script src="js/logout.js"></script>
+    <script src="js/orders.js"></script>
 
 </body>
 </html>

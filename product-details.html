@@ -3,32 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details</title>
+    <title>Product Details - ShopEasy</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">🛍 ShopEasy</div>
+
+        <div class="logo">
+            🛍 ShopEasy
+        </div>
 
         <div class="nav-links">
-            <a href="products.html">Products</a>
-            <a href="cart.html">Cart</a>
-            <a href="orders.html">Orders</a>
+
+            <a href="products.html">
+                🏠 Home
+            </a>
+
+            <a href="cart.html">
+                🛒 Cart
+            </a>
+
+            <a href="orders.html">
+                📦 Orders
+            </a>
+
+            <a href="wishlist.html">
+                ❤️ Wishlist
+            </a>
+
+            <a href="#" onclick="logout()">
+                🚪 Logout
+            </a>
+
         </div>
+
     </nav>
 
-    <!-- Product Details -->
+    <!-- Offer Banner -->
+
+    <div class="free-delivery-banner">
+        🚚 Free Delivery on Orders Above ₹499
+    </div>
+
+    <!-- Product Details Section -->
+
     <div id="product-details"></div>
 
     <!-- Footer -->
+
     <footer>
-        <p>© 2026 ShopEasy. All Rights Reserved.</p>
+        <p>
+            © 2026 ShopEasy. All Rights Reserved.
+        </p>
     </footer>
 
     <script src="js/logout.js"></script>
-<script src="js/productDetails.js"></script>
+    <script src="js/productDetails.js"></script>
 
 </body>
 </html>

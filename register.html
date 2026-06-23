@@ -1,36 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+    <title>Register - ShopEasy</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<nav class="navbar">
-    <div class="logo">🛍 ShopEasy</div>
-</nav>
-<div class="container">
-    <h2>Create Account</h2>
 
-    <form id="registerForm">
-        <input type="text" id="name" placeholder="Full Name" required>
+    <div class="auth-container">
 
-        <input type="email" id="email" placeholder="Email" required>
+        <div class="auth-card">
 
-        <input type="password" id="password" placeholder="Password" required>
+            <h1>🛍 ShopEasy</h1>
 
-        <button type="submit">Register</button>
-    </form>
+            <p>
+                Create your account and start shopping today.
+            </p>
 
-    <p>
-        Already have an account?
-        <a href="login.html">Login</a>
-    </p>
-</div>
-<footer>
-    <p>© 2026 ShopEasy</p>
-</footer>
+            <form id="registerForm">
 
-<script src="js/auth.js"></script>
+             <input type="text" id="name" placeholder="Full Name" required>
+
+               
+<input type="email" id="email" placeholder="Email Address" required>
+
+               <input type="password" id="password" placeholder="Create Password" required>
+
+                <button
+                    type="submit"
+                    class="auth-btn">
+
+                    Register
+
+                </button>
+
+            </form>
+
+            <div class="auth-link">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="js/auth.js"></script>
 
 </body>
 </html>
