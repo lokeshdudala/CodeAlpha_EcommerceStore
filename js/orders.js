@@ -30,11 +30,7 @@ try {
 
         container.innerHTML = `
         <div class="order-card">
-
-            <h3>
-                📦 No Orders Found
-            </h3>
-
+            <h3>📦 No Orders Found</h3>
         </div>
         `;
 
@@ -43,39 +39,51 @@ try {
 
     orders.forEach(order => {
 
-        container.innerHTML += `
-        <div class="order-card">
+        order.products.forEach(item => {
 
-            <h3>
-                📦 Order ID
-            </h3>
+            if (!item.product) return;
 
-            <p>
-                ${order._id}
-            </p>
+            container.innerHTML += `
 
-            <p>
-                🛒 Products:
-                ${order.products.length}
-            </p>
+            <div class="order-card">
 
-            <div class="order-price">
-                ₹${order.totalAmount}
+                <img
+                    src="${item.product.image}"
+                    alt="${item.product.name}"
+                    class="order-image"
+                >
+
+                <h3>
+                    ${item.product.name}
+                </h3>
+
+                <p>
+                    ${item.product.description}
+                </p>
+
+                <div class="order-price">
+                    ₹${item.product.price}
+                </div>
+
+                <p>
+                    📦 Quantity:
+                    ${item.quantity}
+                </p>
+
+                <p>
+                    📅 ${new Date(
+                        order.createdAt
+                    ).toLocaleString()}
+                </p>
+
+                <div class="order-status">
+                    ✅ Delivered
+                </div>
+
             </div>
+            `;
+        });
 
-            <p>
-                📅
-                ${new Date(
-                    order.createdAt
-                ).toLocaleString()}
-            </p>
-
-            <div class="order-status">
-                ✅ Delivered
-            </div>
-
-        </div>
-        `;
     });
 
 } catch (error) {

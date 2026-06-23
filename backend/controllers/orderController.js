@@ -1,40 +1,25 @@
 const Order = require("../models/Order");
 
 const createOrder = async (req, res) => {
-
     try {
 
-        const {
+        const { user, products, totalAmount } = req.body;
+
+        const order = await Order.create({
             user,
             products,
             totalAmount
-        } = req.body;
-
-        const order =
-        await Order.create({
-
-            user,
-            products,
-            totalAmount
-
         });
 
         res.status(201).json({
-
-            message:
-            "Order Placed Successfully",
-
+            message: "Order Placed Successfully",
             order
-
         });
 
     } catch (error) {
 
         res.status(500).json({
-
-            message:
-            error.message
-
+            message: error.message
         });
     }
 };
@@ -43,37 +28,23 @@ const getOrders = async (req, res) => {
 
     try {
 
-        const { userId } =
-        req.params;
+        const { userId } = req.params;
 
-        const orders =
-        await Order.find({
-
+        const orders = await Order.find({
             user: userId
+        }).populate("products.product");
 
-        })
-        .populate(
-            "products.product"
-        );
-
-        res.status(200).json(
-            orders
-        );
+        res.status(200).json(orders);
 
     } catch (error) {
 
         res.status(500).json({
-
-            message:
-            error.message
-
+            message: error.message
         });
     }
 };
 
 module.exports = {
-
     createOrder,
     getOrders
-
 };
