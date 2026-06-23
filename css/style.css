@@ -498,11 +498,7 @@ footer{
     display:flex;
     justify-content:center;
     align-items:center;
-    background:linear-gradient(
-        135deg,
-        #4f46e5,
-        #7c3aed
-    );
+    background:#f8fafc;
     padding:20px;
 }
 
@@ -553,11 +549,7 @@ footer{
     padding:16px;
     border:none;
     border-radius:12px;
-    background:linear-gradient(
-        135deg,
-        #4f46e5,
-        #7c3aed
-    );
+    background:#ff9900;
     color:white;
     font-size:18px;
     font-weight:bold;
@@ -566,7 +558,7 @@ footer{
 }
 
 .auth-btn:hover{
-    transform:translateY(-2px);
+    background:#e68a00;
 }
 
 .auth-link{
