@@ -1,91 +1,509 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopEasy - Online Shopping</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopEasy — Shop Smarter, Live Better</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ===========================================================
+     ShopEasy — Home Page Styling
+     Palette: midnight violet canvas + hot pink / electric violet /
+     gold / mint accents. Glassmorphism + gradient-mesh "3D" feel.
+     =========================================================== */
+
+  :root{
+    --bg:            #0b0a1f;
+    --bg-soft:       #120f2b;
+    --glass:         rgba(255,255,255,0.06);
+    --glass-border:  rgba(255,255,255,0.12);
+    --text:          #f5f3ff;
+    --text-muted:    #a8a3c4;
+
+    --pink:          #ff4d8d;
+    --violet:        #7c5cff;
+    --gold:          #ffc857;
+    --mint:          #00e5a0;
+
+    --grad-brand: linear-gradient(120deg, var(--pink), var(--violet) 55%, var(--mint));
+    --grad-btn:   linear-gradient(120deg, var(--pink), var(--violet));
+
+    --radius-lg: 28px;
+    --radius-md: 18px;
+    --ease: cubic-bezier(.22,1,.36,1);
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3{
+    font-family: 'Unbounded', 'Inter', sans-serif;
+    margin: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--mint);
+    outline-offset: 3px;
+  }
+
+  /* ---------- ambient gradient mesh (fixed backdrop) ---------- */
+  .mesh{
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .mesh span{
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .45;
+    animation: drift 22s ease-in-out infinite;
+  }
+  .mesh span:nth-child(1){
+    width: 480px; height: 480px; top: -160px; left: -120px;
+    background: radial-gradient(circle at 30% 30%, var(--pink), transparent 70%);
+    animation-duration: 24s;
+  }
+  .mesh span:nth-child(2){
+    width: 560px; height: 560px; top: 10%; right: -220px;
+    background: radial-gradient(circle at 60% 40%, var(--violet), transparent 70%);
+    animation-duration: 28s; animation-delay: -6s;
+  }
+  .mesh span:nth-child(3){
+    width: 420px; height: 420px; bottom: -180px; left: 20%;
+    background: radial-gradient(circle at 50% 50%, var(--mint), transparent 70%);
+    animation-duration: 20s; animation-delay: -3s;
+  }
+  .mesh span:nth-child(4){
+    width: 320px; height: 320px; bottom: 8%; right: 8%;
+    background: radial-gradient(circle at 50% 50%, var(--gold), transparent 70%);
+    animation-duration: 18s; animation-delay: -10s;
+    opacity: .3;
+  }
+  @keyframes drift{
+    0%, 100%{ transform: translate(0,0) scale(1); }
+    33%{ transform: translate(30px,-40px) scale(1.08); }
+    66%{ transform: translate(-25px,25px) scale(0.96); }
+  }
+
+  /* ---------- navbar ---------- */
+  .navbar{
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 6vw;
+    background: rgba(11,10,31,0.65);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .logo{
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 600;
+    font-size: 1.25rem;
+    letter-spacing: .02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-links{
+    display: flex;
+    gap: 28px;
+  }
+  .nav-links a{
+    position: relative;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: .95rem;
+    padding-bottom: 4px;
+  }
+  .nav-links a::after{
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 100%; height: 2px;
+    background: var(--grad-btn);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .35s var(--ease);
+    border-radius: 2px;
+  }
+  .nav-links a:hover::after,
+  .nav-links a:focus-visible::after{
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  .nav-links a.cta-link{
+    background: var(--grad-btn);
+    padding: 9px 20px;
+    border-radius: 999px;
+    color: #fff;
+  }
+  .nav-links a.cta-link::after{ display:none; }
+  .nav-links a.cta-link:hover{ filter: brightness(1.1); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 88vh;
+    padding: 6vh 6vw;
+    text-align: center;
+  }
+  .hero-content{
+    max-width: 760px;
+    animation: rise 1s var(--ease) both;
+  }
+  @keyframes rise{
+    from{ opacity: 0; transform: translateY(28px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+  .eyebrow{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--mint);
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: 7px 16px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+  }
+  .eyebrow .dot{
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--mint);
+    box-shadow: 0 0 10px var(--mint);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity: 1; transform: scale(1); }
+    50%{ opacity: .4; transform: scale(.7); }
+  }
+
+  .hero h1{
+    font-size: clamp(2.4rem, 5.6vw, 4.2rem);
+    line-height: 1.08;
+    font-weight: 800;
+    background: var(--grad-brand);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 6s linear infinite;
+  }
+  @keyframes shine{
+    to{ background-position: 200% center; }
+  }
+
+  .hero p{
+    margin: 24px auto 0;
+    max-width: 540px;
+    color: var(--text-muted);
+    font-size: 1.08rem;
+    line-height: 1.65;
+  }
+
+  .hero-buttons{
+    margin-top: 40px;
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  button{
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 15px 30px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease), filter .3s var(--ease);
+  }
+  button:active{ transform: translateY(1px) scale(.98); }
+
+  .hero-buttons button:first-child{
+    color: #fff;
+    background: var(--grad-btn);
+    background-size: 160% auto;
+    box-shadow: 0 10px 30px -8px rgba(124,92,255,0.65);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-buttons button:first-child::before{
+    content: "";
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform: skewX(-20deg);
+    transition: left .6s ease;
+  }
+  .hero-buttons button:first-child:hover::before{ left: 130%; }
+  .hero-buttons button:first-child:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px -8px rgba(255,77,141,0.55);
+    background-position: 100% center;
+  }
+
+  .secondary-btn{
+    color: var(--text);
+    background: var(--glass);
+    border: 1px solid var(--glass-border) !important;
+    backdrop-filter: blur(8px);
+  }
+  .secondary-btn:hover{
+    transform: translateY(-3px);
+    border-color: var(--mint) !important;
+    box-shadow: 0 10px 26px -10px rgba(0,229,160,0.45);
+  }
+
+  /* ---------- features ---------- */
+  .features{
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 4vh 6vw 12vh;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .feature-card{
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+    position: relative;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 34px 26px;
+    text-align: left;
+    backdrop-filter: blur(14px);
+    transform: perspective(800px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .feature-card.in-view{
+    animation: card-in .7s var(--ease) forwards;
+  }
+  .feature-card:nth-child(1){ animation-delay: .05s; }
+  .feature-card:nth-child(2){ animation-delay: .15s; }
+  .feature-card:nth-child(3){ animation-delay: .25s; }
+  .feature-card:nth-child(4){ animation-delay: .35s; }
+  @keyframes card-in{
+    from{ opacity: 0; transform: translateY(24px); }
+    to{ opacity: 1; transform: translateY(0) perspective(800px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); }
+  }
+
+  .feature-card:hover{
+    border-color: rgba(255,255,255,0.28);
+    box-shadow: 0 24px 46px -20px rgba(124,92,255,0.5);
+  }
+
+  .feature-icon{
+    width: 56px; height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 18px;
+    background: linear-gradient(135deg, rgba(255,77,141,.28), rgba(124,92,255,.28));
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+  }
+  .feature-card:nth-child(1) .feature-icon{ background: linear-gradient(135deg, rgba(255,200,87,.3), rgba(255,77,141,.25)); }
+  .feature-card:nth-child(2) .feature-icon{ background: linear-gradient(135deg, rgba(124,92,255,.3), rgba(0,229,160,.2)); }
+  .feature-card:nth-child(3) .feature-icon{ background: linear-gradient(135deg, rgba(255,77,141,.3), rgba(124,92,255,.25)); }
+  .feature-card:nth-child(4) .feature-icon{ background: linear-gradient(135deg, rgba(0,229,160,.3), rgba(255,200,87,.22)); }
+
+  .feature-card h3{
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .feature-card p{
+    margin: 0;
+    color: var(--text-muted);
+    font-size: .92rem;
+    line-height: 1.55;
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 28px 6vw 34px;
+    color: var(--text-muted);
+    font-size: .85rem;
+    border-top: 1px solid var(--glass-border);
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 980px){
+    .features{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 620px){
+    .navbar{ padding: 16px 5vw; }
+    .nav-links{ gap: 14px; }
+    .nav-links a{ font-size: .85rem; }
+    .features{ grid-template-columns: 1fr; padding: 4vh 6vw 10vh; }
+    .hero{ min-height: 78vh; }
+  }
+</style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
+  <!-- ambient background mesh -->
+  <div class="mesh" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
 
-        <div class="logo">
-            🛍 ShopEasy
-        </div>
+  <!-- Navbar -->
+  <nav class="navbar">
 
-        <div class="nav-links">
-            <a href="login.html">Login</a>
-            <a href="register.html">Register</a>
-        </div>
+    <div class="logo">
+      🛍 ShopEasy
+    </div>
 
-    </nav>
+    <div class="nav-links">
+      <a href="login.html">Login</a>
+      <a href="register.html" class="cta-link">Register</a>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
+  </nav>
 
-        <div class="hero-content">
+  <!-- Hero Section -->
+  <section class="hero">
 
-            <h1>
-                Shop Smarter, Live Better
-            </h1>
+    <div class="hero-content">
 
-            <p>
-                Discover the latest gadgets, accessories,
-                electronics and everyday essentials at
-                unbeatable prices.
-            </p>
+      <span class="eyebrow"><span class="dot"></span> Trusted by shoppers across India</span>
 
-            <div class="hero-buttons">
+      <h1>
+        Shop Smarter, Live Better
+      </h1>
 
-                <button onclick="window.location.href='login.html'">
-                    🛒 Start Shopping
-                </button>
+      <p>
+        Discover the latest gadgets, accessories,
+        electronics and everyday essentials at
+        unbeatable prices.
+      </p>
 
-                <button class="secondary-btn"
-                    onclick="window.location.href='register.html'">
-                    ✨ Create Account
-                </button>
+      <div class="hero-buttons">
 
-            </div>
+        <button onclick="window.location.href='login.html'">
+          🛒 Start Shopping
+        </button>
 
-        </div>
+        <button class="secondary-btn"
+          onclick="window.location.href='register.html'">
+          ✨ Create Account
+        </button>
 
-    </section>
+      </div>
 
-    <!-- Features -->
-    <section class="features">
+    </div>
 
-        <div class="feature-card">
-            🚚
-            <h3>Fast Delivery</h3>
-            <p>Quick and secure delivery across India.</p>
-        </div>
+  </section>
 
-        <div class="feature-card">
-            💳
-            <h3>Secure Payments</h3>
-            <p>Safe and trusted payment methods.</p>
-        </div>
+  <!-- Features -->
+  <section class="features">
 
-        <div class="feature-card">
-            ⭐
-            <h3>Top Products</h3>
-            <p>Quality products with great reviews.</p>
-        </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚚</div>
+      <h3>Fast Delivery</h3>
+      <p>Quick and secure delivery across India.</p>
+    </div>
 
-        <div class="feature-card">
-            🎁
-            <h3>Best Offers</h3>
-            <p>Exciting deals and discounts every day.</p>
-        </div>
+    <div class="feature-card">
+      <div class="feature-icon">💳</div>
+      <h3>Secure Payments</h3>
+      <p>Safe and trusted payment methods.</p>
+    </div>
 
-    </section>
+    <div class="feature-card">
+      <div class="feature-icon">⭐</div>
+      <h3>Top Products</h3>
+      <p>Quality products with great reviews.</p>
+    </div>
 
-    <footer>
-        <p>© 2026 ShopEasy. All Rights Reserved.</p>
-    </footer>
+    <div class="feature-card">
+      <div class="feature-icon">🎁</div>
+      <h3>Best Offers</h3>
+      <p>Exciting deals and discounts every day.</p>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>© 2026 ShopEasy. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Scroll-reveal for feature cards
+    const cards = document.querySelectorAll('.feature-card');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    cards.forEach(c => io.observe(c));
+
+    // Subtle 3D tilt on feature cards (mouse-follow)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion){
+      cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          card.style.setProperty('--tilt-x', (-y * 8) + 'deg');
+          card.style.setProperty('--tilt-y', (x * 8) + 'deg');
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.setProperty('--tilt-x', '0deg');
+          card.style.setProperty('--tilt-y', '0deg');
+        });
+      });
+    }
+  </script>
 
 </body>
 </html>
